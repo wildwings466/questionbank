@@ -60,13 +60,6 @@ public class Topic {
 	@Builder.Default
 	private List<Subject> subjects = new ArrayList<>();
 	
-	/*
-	 * @Transient
-	 * 
-	 * @ToString.Exclude
-	 * 
-	 * @Builder.Default private Set<String> subjectNames = new HashSet<>();
-	 */
 	@JsonIgnore
 	@OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, fetch= FetchType.LAZY)
 	@ToString.Exclude

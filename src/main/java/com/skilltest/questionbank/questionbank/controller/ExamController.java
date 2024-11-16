@@ -2,6 +2,7 @@ package com.skilltest.questionbank.questionbank.controller;
 
 import java.util.List;
 
+import com.skilltest.questionbank.questionbank.model.entities.ExamProjection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,23 +31,24 @@ public class ExamController {
 	@GetMapping(
 			produces = MediaType.APPLICATION_JSON_VALUE
 			)
-	public List<Exam> getExams() {
+	public List<ExamProjection> getExams() {
 		return examService.getExams();
+	}
+
+	@GetMapping(
+			path = "/course/{course-id}",
+			produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public List<ExamProjection> getExamsByCourse(@PathVariable(value="course-id") Long courseId) {
+		return examService.getExamsByCourse(courseId);
 	}
 	
 	@GetMapping(
-			path = "/active",
+			path ="/active",
 			produces = MediaType.APPLICATION_JSON_VALUE
 			)
 	public List<Exam> getActiveExams() {
 		return examService.getActiveExams();
-	}
-	
-	@GetMapping(path = "/internal",
-			produces = MediaType.APPLICATION_JSON_VALUE
-			)
-	public List<Exam> getExamsInternal() {
-		return examService.getExams();
 	}
 	
 	@GetMapping("/name/{name}")

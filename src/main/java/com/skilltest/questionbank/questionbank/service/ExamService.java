@@ -2,6 +2,7 @@ package com.skilltest.questionbank.questionbank.service;
 
 import java.util.List;
 
+import com.skilltest.questionbank.questionbank.model.entities.ExamProjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +32,8 @@ public class ExamService {
 		return examRepository.save(exam).getId();
 	}
 	
-	public List<Exam> getExams() {
-		return examRepository.findAll();
+	public List<ExamProjection> getExams() {
+		return examRepository.findAllExams();
 	}
 	
 	public List<Exam> getActiveExams(){
@@ -47,5 +48,9 @@ public class ExamService {
 	public Exam getExamByName(String name) {
 		return examRepository.findByName(name)
 				.orElseThrow(SupplierFactory.getQuestionBankExceptionSupplier("Exam Not found"));
+	}
+
+	public List<ExamProjection> getExamsByCourse(Long courseId) {
+		return examRepository.findExamsByCourseId(courseId);
 	}
 }

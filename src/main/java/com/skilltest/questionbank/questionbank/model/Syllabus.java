@@ -42,7 +42,6 @@ public class Syllabus {
 	@ToLowerCase
 	private String name;
 	
-	@JsonBackReference
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "exam_id")
 	@ToString.Exclude

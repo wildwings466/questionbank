@@ -49,9 +49,9 @@ public class SubjectController {
 	@PostMapping(
 			consumes = MediaType.APPLICATION_JSON_VALUE
 			)
-	public Long createSubjects(@RequestBody Subject category) {
-		logger.info("creating Cateogry: {}", category);
-		return subjectService.createSubject(category);
+	public Long createSubjects(@RequestBody Subject subject) {
+		logger.info("creating Subject: {}", subject);
+		return subjectService.createSubject(subject);
 	}
 
 }

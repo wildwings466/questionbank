@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Question Management</h1>
+        <hr>
+
+        <!-- Display Questions -->
+        <div id="questions">
+            <h2>Questions</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Statement</th>
+                        <th>Answer</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="questionList">
+                    <!-- Populate with AJAX call -->
+                </tbody>
+            </table>
+        </div>
+        <hr>
+
+        <!-- Create New Question Form -->
+        <div id="createQuestion">
+            <h2>Create New Question</h2>
+            <form id="questionForm">
+                <div class="form-group">
+                    <label for="statement">Statement</label>
+                    <input type="text" class="form-control" id="statement" name="statement" required>
+                </div>
+                <div class="form-group">
+                    <label for="answer">Answer</label>
+                    <input type="text" class="form-control" id="answer" name="answer" required>
+                </div>
+                <div class="form-group">
+                    <label for="option1">Option 1</label>
+                    <input type="text" class="form-control" id="option1" name="option1" required>
+                </div>
+                <div class="form-group">
+                    <label for="option2">Option 2</label>
+                    <input type="text" class="form-control" id="option2" name="option2" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Your custom script -->
+    <script>
+        // Function to fetch questions and populate the table
+        function fetchQuestions() {
+            $.ajax({
+                url: '/api/questions',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var questionList = $('#questionList');
+                    questionList.empty();
+                    data.forEach(function(question) {
+                        questionList.append(
+                            `<tr>
+                                <td>${question.id}</td>
+                                <td>${question.statement}</td>
+                                <td>${question.answer}</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteQuestion(${question.id})">Delete</button>
+                                </td>
+                            </tr>`
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching questions:', error);
+                }
+            });
+        }
+
+        // Function to handle form submission for creating a new question
+        $('#questionForm').submit(function(event) {
+            event.preventDefault();
+            var formData = {
+                statement: $('#statement').val(),
+                answer: $('#answer').val(),
+                option1: $('#option1').val(),
+                option2: $('#option2').val()
+                // Add other fields as needed
+            };
+            $.ajax({
+                url: '/api/questions',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(data) {
+                    fetchQuestions(); // Refresh question list after creation
+                    $('#questionForm')[0].reset(); // Clear form fields
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error creating question:', error);
+                }
+            });
+        });
+
+        // Function to delete a question
+        function deleteQuestion(questionId) {
+            $.ajax({
+                url: `/api/questions/${questionId}`,
+                method: 'DELETE',
+                success: function(data) {
+                    fetchQuestions(); // Refresh question list after deletion
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error deleting question:', error);
+                }
+            });
+        }
+
+        // Fetch questions on page load
+        $(document).ready(function() {
+            fetchQuestions();
+        });
+    </script>
+</body>
+</html>

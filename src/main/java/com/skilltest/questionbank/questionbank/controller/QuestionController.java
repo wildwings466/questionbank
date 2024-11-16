@@ -18,7 +18,7 @@ import com.skilltest.questionbank.questionbank.service.QuestionService;
 
 @RestController
 @RequestMapping("api/questions")
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class QuestionController {
 	
 	Logger logger = LoggerFactory.getLogger(QuestionController.class);

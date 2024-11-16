@@ -3,6 +3,8 @@ package com.skilltest.questionbank.questionbank.dao;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+import com.skilltest.questionbank.questionbank.model.entities.ExamProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,7 +24,12 @@ public interface ExamRepository extends JpaRepository<Exam, Long>{
 	@Modifying
 	@Query("update Exam e set e.active = true where e.id = :id")
 	public void activateExam(@Param(value = "id") long id);
-	
+
+	@Query("SELECT e FROM Exam e WHERE e.course.id = :courseId")
+	List<ExamProjection> findExamsByCourseId(@Param("courseId") Long courseId);
+
+	@Query("select e from Exam e")
+	List<ExamProjection> findAllExams();
 	
 	
 }

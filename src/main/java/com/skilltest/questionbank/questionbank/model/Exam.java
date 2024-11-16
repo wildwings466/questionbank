@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -32,9 +33,6 @@ import lombok.ToString;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class Exam {
 	
 	@Id
@@ -43,33 +41,28 @@ public class Exam {
 	
 	@NotNull
 	@Column(unique = true)
-	@ToLowerCase
 	private String name;
 	
 	private int year;
 	
 	private boolean active;
-	
-	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name = "course_id", nullable = false)
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "course_id")
 	@ToString.Exclude
 	private Course course;
 	
-	@JsonManagedReference
 	@OneToOne(mappedBy = "exam", fetch = FetchType.LAZY)
 	@ToString.Exclude
 	private Syllabus syllabus;
 	
 	@OneToMany(mappedBy = "exam", fetch = FetchType.LAZY)
 	@ToString.Exclude
-	@Builder.Default
 	private List<QuestionPaper> questionPaper = new ArrayList<>();
-	
-	@JsonManagedReference
+
+	@JsonIgnore
 	@ManyToMany(mappedBy="exams", fetch = FetchType.LAZY)
 	@ToString.Exclude
-	@Builder.Default
 	private List<Question> questions = new ArrayList<>();
 	
     @Column(name ="created_by")

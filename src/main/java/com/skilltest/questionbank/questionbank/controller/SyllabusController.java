@@ -2,6 +2,7 @@ package com.skilltest.questionbank.questionbank.controller;
 
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ import com.skilltest.questionbank.questionbank.service.SyllabusService;
 @RestController
 @RequestMapping("api/syllabi")
 @CrossOrigin(origins = "http://localhost:4200")
+@Slf4j
 public class SyllabusController {
-	private static Logger logger = LoggerFactory.getLogger(SyllabusController.class);
 	@Autowired
 	private SyllabusService syllabusService;
 	
@@ -49,7 +50,7 @@ public class SyllabusController {
 			consumes = MediaType.APPLICATION_JSON_VALUE
 			)
 	public Long createSyllabus(@RequestBody Syllabus syllabus) {
-		logger.info("creating Syllabus: {}", syllabus);
+		log.info("creating Syllabus: {}", syllabus);
 		return syllabusService.createSyllabus(syllabus);
 	}
 

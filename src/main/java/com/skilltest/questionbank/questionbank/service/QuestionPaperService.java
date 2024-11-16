@@ -26,8 +26,7 @@ public class QuestionPaperService {
 	}
 	
 	public List<QuestionPaper> getQuestionPapers() {
-		List<QuestionPaper> questionPapers = questionPaperRepository.findAll();
-		return questionPapers;
+        return questionPaperRepository.findAll();
 	}
 	
 	public List<QuestionPaper> getQuestionPaperByExamNameAndYear(String examName, Integer year) {

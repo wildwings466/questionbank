@@ -5,10 +5,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -54,7 +53,8 @@ public class Question {
 	
 	@NotNull
 	private String option2;
-	
+
+	@NotNull
 	private String option3;
 	
 	private float penalty;
@@ -68,7 +68,7 @@ public class Question {
 	@Column(name = "previous_years")
 	private String[] previousYears;
 	
-	@JsonBackReference
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "previous_exams",
 	joinColumns = {@JoinColumn(name="question_id")},
