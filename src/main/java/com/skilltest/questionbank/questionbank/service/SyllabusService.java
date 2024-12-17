@@ -1,23 +1,22 @@
 package com.skilltest.questionbank.questionbank.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.skilltest.questionbank.questionbank.dao.ExamRepository;
 import com.skilltest.questionbank.questionbank.dao.SyllabusRepository;
 import com.skilltest.questionbank.questionbank.model.Syllabus;
+import com.skilltest.questionbank.questionbank.model.entities.SyllabusProjection;
 import com.skilltest.questionbank.questionbank.util.SupplierFactory;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SyllabusService {
 	
-	@Autowired
-	private SyllabusRepository syllabusRepository;
+	private final SyllabusRepository syllabusRepository;
 	
-	@Autowired
-	private ExamRepository examRepository;
+	private final ExamRepository examRepository;
 	
 	public Long createSyllabus(Syllabus syllabus) {
 		String examName = syllabus.getExam().getName();
@@ -30,7 +29,7 @@ public class SyllabusService {
 		return syllabusRepository.findAll();
 	}
 	
-	public Syllabus getSyllabusByExam(String exam) {
-		return syllabusRepository.findByExam(examRepository.findByName(exam).orElseThrow());
+	public SyllabusProjection getSyllabusByExam(String exam) {
+		return syllabusRepository.findSyllabusByExamName(exam).orElseThrow(SupplierFactory.getNotFoundExceptionSupplier("Exam Not found"));
 	}
 }

@@ -2,6 +2,7 @@ package com.skilltest.questionbank.questionbank.controller;
 
 import java.util.List;
 
+import com.skilltest.questionbank.questionbank.model.entities.SyllabusProjection;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class SyllabusController {
 	}
 	
 	@GetMapping("/exam/{exam_name}")
-	public Syllabus getSyllabusByExam(@PathVariable(value = "exam_name") String examName) {
+	public SyllabusProjection getSyllabusByExam(@PathVariable(value = "exam_name") String examName) {
 		return syllabusService.getSyllabusByExam(examName);
 	}
 	

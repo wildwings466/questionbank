@@ -17,10 +17,10 @@ import java.util.List;
 public interface SyllabusProjection {
 	
 
-	public long getId();
-	public void setId(long id);
-	public String getName();
-	public void setName(String name);
-	public List<Subject> getSubjects();
-	public void setSubjects(List<Subject> subjects);
+	 long getId();
+	 void setId(long id);
+	 String getName();
+	 void setName(String name);
+	 List<SubjectProjection> getSubjects();
+	 void setSubjects(List<SubjectProjection> subjects);
 }
